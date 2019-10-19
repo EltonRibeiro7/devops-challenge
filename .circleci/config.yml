@@ -1,0 +1,154 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.16.3
+    resource_class: small
+    working_directory: ~/tw-challenge/app
+    steps:
+      - checkout:
+          path: ~/tw-challenge 
+      - run:
+          name: Install EditorConfig
+          command: sudo yarn global add editorconfig
+      - restore_cache:
+          name: Restoring Cached Dependencies 
+          key: v1-app-dependencies-cache.{{ checksum "./package-lock.json" }}
+      - run:
+          name: Install APP Dependencies
+          command: yarn install 
+      - save_cache:
+          name: Save Cached Dependencies if changed
+          key: v1-app-dependencies-cache.{{ checksum "./package-lock.json" }}
+          paths: 
+            - ./node_modules 
+      - persist_to_workspace:
+          name: Persist to Workspace
+          root: ./
+          paths:
+            - ./
+  test:
+    docker:
+      - image: circleci/node:10.16.3
+    resource_class: small
+    working_directory: ~/tw-challenge/app
+    steps:
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Run Unit Tests
+          command: yarn test
+      - store_test_results:
+          path: test-results
+
+  image-build:
+    docker:
+      - image: circleci/node:10.16.3
+    resource_class: small
+    working_directory: ~/tw-challenge/app
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          name: Restoring Cached Dependencies 
+          key: v1-app-dependencies-cache.{{ checksum "./package-lock.json" }}
+      - run:
+          name: Build to Prod
+          command: yarn run build
+      - setup_remote_docker:
+          name: Setup Remote Docker Registry Login
+          docker_layer_caching: false
+      - run: 
+          name: Docker Login
+          command: docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD}
+      - run: 
+          name: Docker Image Build
+          command: |
+            docker build -t ${DOCKER_NAMESPACE}/app:${CIRCLE_TAG} .
+      - run:
+          name: Docker Image Push
+          command: |
+            TAG=${CIRCLE_CI}-stage
+            docker image push ${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}
+
+  deploy:
+    docker:
+      - image: circleci/node:10.16.3
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: Get kubeconfig with doctl
+          command: |
+            curl -OL https://github.com/digitalocean/doctl/releases/download/v1.32.2/doctl-1.32.2-linux-amd64.tar.gz
+            tar xf ./doctl-1.32.2-linux-amd64.tar.gz
+            sudo chmod +x ./doctl
+            ./doctl auth init -t ${DOCTL_TOKEN}
+            ./doctl kubernetes cluster kubeconfig save k8s-cluster -t ${DOCTL_TOKEN}
+            mv ./doctl ~/.kube/
+      - run:
+          name: Install Kubectl
+          command: |
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+            sudo chmod +x ./kubectl
+      - run:
+          name: Update Docker Image on Deployment .yml
+          command: |
+            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ./deploy/k8s-app/deployment.yml
+      - run: 
+          name: Execute .yml files 
+          command: |
+            ./kubectl apply -f ./deploy/k8s-app/namespace.yml
+            ./kubectl apply -f ./deploy/k8s-app/
+        
+workflows:
+  app-pipeline:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: 
+                - master
+            tags:
+              only:
+                - /v[0-9]+\.[0-9]+\.[0-9]+/
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: 
+                - master
+            tags:
+              only:
+                - /v[0-9]+\.[0-9]+\.[0-9]+/
+      - image-build:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only:
+                - /v[0-9]+\.[0-9]+\.[0-9]+/
+      - approval_pending:
+          type: approval
+          requires:
+            - image-build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only:
+                - /v[0-9]+\.[0-9]+\.[0-9]+/
+      - deploy:
+          requires:
+            - approval_pending
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only:
+                - /v[0-9]+\.[0-9]+\.[0-9]+/
+

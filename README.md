@@ -1,0 +1,35 @@
+# TW-CHALLENGE
+
+A challenge to create a working pipeline with the following requisites:
+
+-------
+
+## Challenge Details
+
+* Must have:
+  * All dependencies need to be resolved by the pipeline.
+  * Pipeline must be multi stage with at least build, test and deploy.
+  * Should be able to deploy specific versions of the code.
+  * Should be able to deploy at any time.
+
+* Should have:
+  * Pipeline as a code, commited together with the code.
+  * Descriptive pipeline.
+  * Provide support for containers or similar technology.
+  * Open source app from ToDoMVC or similar.
+
+* Nice to have:
+  * Automated tests.
+  * Scalable to more servers
+
+## Requirements
+
+### Kubernetes Cloud Managed Cluster (Tested on DigitalOcean Kubernetes)
+- Api Metrics Running  
+- Nginx Ingress Controller
+    https://github.com/kubernetes/ingress-nginx
+- Version 1.14.x
+
+### Minikube
+- Api Metrics Running
+- Nginx Ingress Controller (minikube addons enable ingress)
