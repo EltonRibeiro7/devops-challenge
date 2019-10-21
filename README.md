@@ -32,11 +32,18 @@ My solution to this challenge involves a open source front end application writt
 
 #### Kubernetes Cloud Managed Cluster (Tested on DigitalOcean Kubernetes)
 
-* Api Metrics Server. 
-* Nginx Ingress Controller
-  * https://github.com/kubernetes/ingress-nginx
-* Version 1.14.x
+* Api Metrics Server Installed if you want to use Horizontal Pod Autoscaler.
+* Nginx Ingress Controller in order to use ingress, [details](https://github.com/kubernetes/ingress-nginx)
+* K8S tested on version 1.14.x
 
-### Minikube
-- Api Metrics Running
-- Nginx Ingress Controller (minikube addons enable ingress)
+#### Minikube
+
+* Api Metrics Server Installed if you want to use Horizontal Pod Autoscaler.
+* Nginx Ingress Controller in order to use ingress, [details](https://github.com/kubernetes/ingress-nginx)
+* K8S tested on version 1.14.x
+
+### Deployment using 
+
+
+-------
+
