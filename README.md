@@ -63,8 +63,10 @@ Will run whenever someone commits or pull request to master branch:
 
 Will run only if a tag is pushed to master branch. With this, people can control when the code will be deployed and what version of code will be deployed.
 
-* image-build: will build an docker image and push it to docker.io repository
-* approval: manual approval required to proceed with production deploy
-* deploy: will deploy after approval, check if it was ok and finish, otherwise will rollback the deployment to a previous version and quit with an error.
+* Image-build Stage: will build an docker image and push it to docker.io repository
+* Approval Stage: manual approval required to proceed with production deploy
+* Deploy Stage: will deploy after approval, check if it was ok and finish, otherwise will rollback the deployment to a previous version and quit with an error.
 
 -------
+
+**Tip**: If you want to skip the CI, just put the tag in the commit msg [skip ci].
