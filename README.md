@@ -2,21 +2,25 @@
 
 A challenge to create a working pipeline with the following requisites:
 
+-------
+
+## Challenge Details
+
 * Must have:
   * All dependencies need to be resolved by the pipeline.
   * Pipeline must be multi stage with at least build, test and deploy.
   * Should be able to deploy specific versions of the code.
-  * Should be able to deploy at any moment.
+  * Should be able to deploy at any time.
 
 * Should have:
   * Pipeline as a code, commited together with the code.
-  * Container or similar technology supported 
+  * Descriptive pipeline.
+  * Provide support for containers or similar technology.
+  * Open source app from ToDoMVC or similar.
 
 * Nice to have:
   * Automated tests.
-  * Scale out to more servers
-
-
+  * Scalable to more servers
 
 ## Requirements
 

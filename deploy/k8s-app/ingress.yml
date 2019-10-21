@@ -10,7 +10,7 @@ spec:
     serviceName: default-http-backend
     servicePort: 80
   rules:
-  - host: wtchallenge.ddns.net
+  - host: twchallenge.ddns.net
     http:
       paths:
       - path: /
