@@ -86,7 +86,7 @@ jobs:
             sudo chmod +x ./doctl
             ./doctl auth init -t ${DOCTL_TOKEN}
             ./doctl kubernetes cluster kubeconfig save k8s-cluster -t ${DOCTL_TOKEN}
-            mv ./doctl .kube/
+            mv ./doctl ~/.kube/
       - run:
           name: Install Kubectl
           command: |
