@@ -84,10 +84,10 @@ jobs:
             curl -OL https://github.com/digitalocean/doctl/releases/download/v1.32.2/doctl-1.32.2-linux-amd64.tar.gz
             tar xf ./doctl-1.32.2-linux-amd64.tar.gz
             sudo chmod +x ./doctl
-            mkdir ./.kube/
             mv ./doctl ./.kube/
             ./.kube/doctl auth init -t ${DOCTL_TOKEN}
             ./.kube/doctl kubernetes cluster kubeconfig save k8s-cluster -t ${DOCTL_TOKEN}
+            mv ./doctl ./.kube/
       - run:
           name: Install Kubectl
           command: |
