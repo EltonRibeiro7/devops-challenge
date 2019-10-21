@@ -22,6 +22,12 @@ A challenge to create a working pipeline with the following requisites:
   * Automated tests.
   * Scalable to more servers
 
+-------
+
+## My solution
+
+My solution to this challenge involves a open source front end application written in Vue, details on this [link](https://github.com/gothinkster/vue-realworld-example-app), as well a pipeline written to work with circleCI. The app is built into a docker container and then deployed to a cloud kubernetes managed cluster running at DigitalOcean. 
+
 ## Requirements
 
 ### Kubernetes Cloud Managed Cluster (Tested on DigitalOcean Kubernetes)
