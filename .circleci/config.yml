@@ -15,8 +15,8 @@ jobs:
             ls -la
             pwd
             which sed 
-            cat ~/project/deploy/k8s-app/deployment.yml
-            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ~/project/deploy/k8s-app/deployment.yml
+            cat ~/deploy/k8s-app/deployment.yml
+            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ~/deploy/k8s-app/deployment.yml
       - run:
           name: Install EditorConfig
           command: sudo yarn global add editorconfig
