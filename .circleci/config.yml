@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     resource_class: small
-    working_directory: ~/tw-challenge/deploy
+    working_directory: ~/tw-challenge/
     steps:
       - checkout:
           path: ~/tw-challenge 
@@ -15,8 +15,8 @@ jobs:
             ls -la
             pwd
             which sed 
-            cat ~/deploy/k8s-app/deployment.yml
-            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ~/deploy/k8s-app/deployment.yml
+            cat ~/tw-challenge/deploy/k8s-app/deployment.yml
+            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ~/tw-challenge/deploy/k8s-app/deployment.yml
       - run:
           name: Install EditorConfig
           command: sudo yarn global add editorconfig
