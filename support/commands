@@ -7,9 +7,9 @@ git add -A
 git commit -am "Skip [ci skip]"
 git push origin master 
 
-git tag -d v0.0.1
-git push origin -d v0.0.1
-git tag -a v0.0.1 -m "Release v0.0.1"
+git tag -d v0.0.2
+git push origin -d v0.0.2
+git tag -a v0.0.2 -m "Release v0.0.2"
 git push origin master --tags
 
 
