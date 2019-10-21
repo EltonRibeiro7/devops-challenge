@@ -42,8 +42,20 @@ My solution to this challenge involves a open source front end application writt
 * Nginx Ingress Controller in order to use ingress, [details](https://github.com/kubernetes/ingress-nginx)
 * K8S tested on version 1.14.x
 
-### Deployment using 
+### Details
+
+#### Pipeline
+
+The pipeline has four stages with a manual approval step in order to deploy to production. The steps are described below:
+
+Will run whenever someone commits or pull request to master branch:
+
+* Build Stage: will install all requirements and all dependencies
+* Test State: will run unit tests of the application and send the result back to the circleCI interface.
+
+Will run only if a tag is pushed to master branch. With this, people can control when the code will be deployed and what version of code will be deployed.
+
+* 
 
 
 -------
-
