@@ -35,16 +35,24 @@ My solution to this challenge involves a open source front end application writt
 * Api Metrics Server Installed if you want to use Horizontal Pod Autoscaler.
 * Nginx Ingress Controller in order to use ingress, [details](https://github.com/kubernetes/ingress-nginx)
 * K8S tested on version 1.14.x
+* Host URL on ./deploy/k8s-app/ingress.yml should be changed to a valid external DNS Host Entry. I am using one for test "twchallenge.ddns.net"
+
+**Note:** There is a terraform module as well as an example of how to provide a k8s-cluster with basic settings at DigitalOcean. Use your own token and backend state server as input. The root folder is at ./deploy/terraform.
 
 #### Minikube
 
-* Api Metrics Server Installed if you want to use Horizontal Pod Autoscaler.
+* Api Metrics Server Installed if you want to use Horizontal Pod Autoscaler. [details](https://github.com/kubernetes-incubator/metrics-server)
 * Nginx Ingress Controller in order to use ingress, [details](https://github.com/kubernetes/ingress-nginx)
 * K8S tested on version 1.14.x
+* Add twchallenge.ddns.net in hosts of your host and points it the minikube ip address.
 
 ### Details
 
-#### Pipeline
+#### Trunk Based Development
+
+I am assuming a TBD development model in order to create a pipeline aligned with it. TDB was chosen because it fits well in a CI/CD flow. The trunk branch will be the master. Developers should merge to master or pull request (only if necessary). Create release branchs only if is absolutely necessary, otherwise release tags will be enough (the pipeline was designed to work it release tags)
+
+#### The Pipeline
 
 The pipeline has four stages with a manual approval step in order to deploy to production. The steps are described below:
 
@@ -55,7 +63,8 @@ Will run whenever someone commits or pull request to master branch:
 
 Will run only if a tag is pushed to master branch. With this, people can control when the code will be deployed and what version of code will be deployed.
 
-* 
-
+* image-build: will build an docker image and push it to docker.io repository
+* approval: manual approval required to proceed with production deploy
+* deploy: will deploy after approval, check if it was ok and finish, otherwise will rollback the deployment to a previous version and quit with an error.
 
 -------
