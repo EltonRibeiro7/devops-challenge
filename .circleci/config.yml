@@ -97,7 +97,7 @@ jobs:
             ls -la
             pwd
             which sed 
-            cat ./deploy/k8s-app/deployment.yml
+            cat ~/deploy/k8s-app/deployment.yml
             sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ./deploy/k8s-app/deployment.yml
       - run: 
           name: Execute .yml files 
