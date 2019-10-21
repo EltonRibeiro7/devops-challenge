@@ -95,12 +95,12 @@ jobs:
       - run:
           name: Update Docker Image on Deployment .yml
           command: |
-            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ./deploy/k8s-app/deployment.yml
+            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ./k8s-app/deployment.yml
       - run: 
           name: Execute .yml files 
           command: |
-            ./kubectl apply -f ./deploy/k8s-app/namespace.yml
-            ./kubectl apply -f ./deploy/k8s-app/
+            ./kubectl apply -f ./k8s-app/namespace.yml
+            ./kubectl apply -f ./k8s-app/
         
 workflows:
   app-pipeline:
