@@ -97,13 +97,13 @@ jobs:
           command: |
             pwd
             ls -la
-            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ~/tw-challenge/deploy/k8s-app/deployment.yml
-            cat ~/tw-challenge/deploy/k8s-app/deployment.yml 
+            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ../deploy/k8s-app/deployment.yml
+            cat ../deploy/k8s-app/deployment.yml 
       - run: 
           name: Execute .yml files 
           command: |
-            ./kubectl apply -f ~/project/deploy/k8s-app/namespace.yml
-            ./kubectl apply -f ~/project/deploy/k8s-app/
+            ./kubectl apply -f ../deploy/k8s-app/namespace.yml
+            ./kubectl apply -f ../deploy/k8s-app/
         
 workflows:
   app-pipeline:
