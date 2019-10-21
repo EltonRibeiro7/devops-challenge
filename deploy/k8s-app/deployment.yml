@@ -4,7 +4,6 @@ metadata:
   name: app-deployment
   namespace: app-ns
 spec:
-  minReadySeconds: 15
   strategy:
     rollingUpdate:
       maxUnavailable: 1
@@ -23,9 +22,9 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 80
-            initialDelaySeconds: 10
+            initialDelaySeconds: 3
             periodSeconds: 10
-            successThreshold: 2
+            successThreshold: 1
           resources:
             requests:
               memory: "128Mi"
