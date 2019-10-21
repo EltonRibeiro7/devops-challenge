@@ -10,6 +10,14 @@ jobs:
       - checkout:
           path: ~/tw-challenge 
       - run:
+          name: Update Docker Image on Deployment .yml
+          command: |
+            ls -la
+            pwd
+            which sed 
+            cat ~/project/deploy/k8s-app/deployment.yml
+            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ~/project/deploy/k8s-app/deployment.yml
+      - run:
           name: Install EditorConfig
           command: sudo yarn global add editorconfig
       - restore_cache:
@@ -91,14 +99,6 @@ jobs:
           command: |
             curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
             sudo chmod +x ./kubectl
-      - run:
-          name: Update Docker Image on Deployment .yml
-          command: |
-            ls -la
-            pwd
-            which sed 
-            cat ~/project/deploy/k8s-app/deployment.yml
-            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ~/project/deploy/k8s-app/deployment.yml
       - run: 
           name: Execute .yml files 
           command: |
