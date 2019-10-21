@@ -104,8 +104,9 @@ jobs:
       - run:
           name: Check Deployment Status and Rollback if necessary
           command: |
-            sleep 30
-            kubectl rollout status deployment app-deployment -n app-ns && exit 0 || kubectl rollout undo deployment app-deployment -n app-ns && exit 1 
+            SLEEP=`cat ./deploy/k8s-app/deployment.yml | grep progressDeadlineSeconds | awk '{print $2}'`
+            sleep ${SLEEP}
+            ./kubectl rollout status deployment app-deployment -n app-ns && exit 0 || kubectl rollout undo deployment app-deployment -n app-ns && exit 1 
 workflows:
   
   app-pipeline:

@@ -26,15 +26,16 @@ A challenge to create a working pipeline with the following requisites:
 
 ## My solution
 
-My solution to this challenge involves a open source front end application written in Vue, details on this [link](https://github.com/gothinkster/vue-realworld-example-app), as well a pipeline written to work with circleCI. The app is built into a docker container and then deployed to a cloud kubernetes managed cluster running at DigitalOcean. 
+My solution to this challenge involves a open source front end application written in Vue, details on this [link](https://github.com/gothinkster/vue-realworld-example-app), as well as a pipeline written to work with circleCI. The app is built into a docker container and then deployed to a cloud kubernetes managed cluster running at DigitalOcean.
 
-## Requirements
+### Requirements
 
-### Kubernetes Cloud Managed Cluster (Tested on DigitalOcean Kubernetes)
-- Api Metrics Running  
-- Nginx Ingress Controller
-    https://github.com/kubernetes/ingress-nginx
-- Version 1.14.x
+#### Kubernetes Cloud Managed Cluster (Tested on DigitalOcean Kubernetes)
+
+* Api Metrics Server. 
+* Nginx Ingress Controller
+  * https://github.com/kubernetes/ingress-nginx
+* Version 1.14.x
 
 ### Minikube
 - Api Metrics Running
