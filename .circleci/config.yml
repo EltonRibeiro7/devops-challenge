@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     resource_class: small
-    working_directory: ~/tw-challenge/
+    working_directory: ~/tw-challenge/app
     steps:
       - checkout:
           path: ~/tw-challenge 
