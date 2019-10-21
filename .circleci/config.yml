@@ -76,10 +76,10 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     resource_class: small
-    working_directory: ~/
+    working_directory: ~/tw-challenge/deploy
     steps:
-      - attach_workspace:
-          at: ./
+      - checkout:
+          path: ~/tw-challenge 
       - run:
           name: Get kubeconfig with doctl
           command: |
@@ -95,15 +95,12 @@ jobs:
       - run:
           name: Update Docker Image on Deployment .yml
           command: |
-            pwd
-            ls -la
-            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ../deploy/k8s-app/deployment.yml
-            cat ../deploy/k8s-app/deployment.yml 
+            sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ./deploy/k8s-app/deployment.yml
       - run: 
           name: Execute .yml files 
           command: |
-            ./kubectl apply -f ../deploy/k8s-app/namespace.yml
-            ./kubectl apply -f ../deploy/k8s-app/
+            ./kubectl apply -f ./deploy/k8s-app/namespace.yml
+            ./kubectl apply -f ./deploy/k8s-app/
         
 workflows:
   app-pipeline:
