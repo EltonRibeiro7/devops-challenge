@@ -95,6 +95,8 @@ jobs:
       - run:
           name: Update Docker Image on Deployment .yml
           command: |
+            pwd
+            ls -la
             sed -i s#app-container-release#docker.io/${DOCKER_NAMESPACE}/app:${CIRCLE_TAG}#g ~/tw-challenge/deploy/k8s-app/deployment.yml
             cat ~/tw-challenge/deploy/k8s-app/deployment.yml 
       - run: 
