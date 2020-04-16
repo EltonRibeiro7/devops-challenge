@@ -1,4 +1,4 @@
-# TW-CHALLENGE
+# DEVOPS-CHALLENGE
 
 A challenge to create a working pipeline with the following requisites:
 
